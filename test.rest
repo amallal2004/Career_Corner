@@ -1,0 +1,98 @@
+### Signup with extended profile
+POST http://127.0.0.1:8000/api/signup/
+Content-Type: application/json
+
+{
+  "username": "amal123",
+  "email": "amal@example.com",
+  "password": "pass123",
+  "full_name": "Amal Lal",
+  "year_of_study": "3rd Year",
+  "department": "CSE",
+  "phone": "9876543210"
+}
+
+
+### Login
+POST http://127.0.0.1:8000/api/login/
+Content-Type: application/json
+
+{
+  "username": "amal123",
+  "password": "pass123"
+}
+
+### Mentor Login
+POST http://127.0.0.1:8000/api/login/
+Content-Type: application/json
+
+{
+  "username": "mentor",
+  "password": "admin@123"
+}
+
+### Leaderboard
+GET http://127.0.0.1:8000/api/leaderboard/
+Authorization: Token 88317e6c4b78dd6bb86d0052b8642c2415e39915
+
+
+### Get all levels
+GET http://127.0.0.1:8000/api/levels/
+Authorization: Token YOUR_TOKEN_HERE
+
+
+### Submit a task
+POST http://127.0.0.1:8000/api/submissions/
+Content-Type: application/json
+Authorization: Token YOUR_TOKEN_HERE
+
+{
+  "level": 1,
+  "link": "https://github.com/amallal/my-html-project",
+  "comment": "My first HTML task submission!"
+}
+
+
+### View my submissions
+GET http://127.0.0.1:8000/api/submissions/
+Authorization: Token 88317e6c4b78dd6bb86d0052b8642c2415e39915
+
+
+### Approve a submission (mentor only)
+PATCH http://127.0.0.1:8000/api/submissions/1/
+Content-Type: application/json
+Authorization: Token MENTOR_TOKEN_HERE
+
+{
+  "status": "approved",
+  "feedback": "Looks fantastic!"
+}
+
+
+### Approve a submission with feedback (mentor only)
+PATCH http://127.0.0.1:8000/api/submissions/1/
+Content-Type: application/json
+Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+
+{
+  "status": "approved",
+  "feedback": "Looks great!"
+}
+
+### List all sessions (students + mentors)
+GET http://127.0.0.1:8000/api/sessions/
+Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+
+
+### Mentor marks attendance
+POST http://127.0.0.1:8000/api/sessions/1/attendance/
+Content-Type: application/json
+Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+
+{
+  "attendances": [
+    {"student_id": 2, "status": "present"},
+    {"student_id": 3, "status": "absent"},
+    {"student_id": 4, "status": "present"}
+  ]
+}
