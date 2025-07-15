@@ -3,11 +3,11 @@
 ### ======================
 
 ### Signup with extended profile
-POST http://127.0.0.1:8000/api/signup/
+POST https://career-corner-d7p2y0lsi-amallal2004-gmailcoms-projects.vercel.app/api/signup/
 Content-Type: application/json
 
 {
-  "username": "amal",
+  "username": "ashin",
   "email": "amal@example.com",
   "password": "pass123",
   "full_name": "Amal Lal",
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 
 ### Login as student
-POST http://127.0.0.1:8000/api/login/
+POST https://career-corner-d7p2y0lsi-amallal2004-gmailcoms-projects.vercel.app/api/login/
 Content-Type: application/json
 
 {
