@@ -1,9 +1,9 @@
 from django.urls import path
 from .views import (
-    list_sessions, mark_attendance,
     signup, login,
     LevelListView, SubmissionListCreateView, SubmissionUpdateView,
-    leaderboard
+    leaderboard,
+    list_sessions, mark_attendance, create_session
 )
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('submissions/<int:pk>/', SubmissionUpdateView.as_view(), name='submission-update'),
     path('leaderboard/', leaderboard, name='leaderboard'),
     path('sessions/', list_sessions, name='sessions'),
+    path('sessions/create/', create_session, name='create-session'),
     path('sessions/<int:session_id>/attendance/', mark_attendance, name='mark-attendance'),
 ]

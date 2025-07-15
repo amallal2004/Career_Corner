@@ -96,3 +96,19 @@ Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
     {"student_id": 4, "status": "present"}
   ]
 }
+
+### Mentor creates a new session
+POST http://127.0.0.1:8000/api/sessions/create/
+Content-Type: application/json
+Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+
+{
+  "title": "Week 3 JavaScript",
+  "description": "Intro to JS basics",
+  "date": "2025-07-30",
+  "location": "CSE Seminar Hall"
+}
+
+### Get all sessions
+GET http://127.0.0.1:8000/api/sessions/
+Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4

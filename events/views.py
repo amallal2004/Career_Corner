@@ -98,6 +98,17 @@ def leaderboard(request):
     return Response(data)
 
 
+# Mentor creates a new session
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def create_session(request):
+    serializer = SessionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # List all sessions (students & mentors can both see upcoming events)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
