@@ -173,3 +173,8 @@ def my_profile(request):
     }
     return Response(data)
 
+class LevelCreateView(generics.CreateAPIView):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+    permission_classes = [IsAdminUser]
+

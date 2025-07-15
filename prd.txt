@@ -1,0 +1,88 @@
+<context>
+# Overview  
+The IEEE SB UCEK Event Platform backend is a Django-based system designed to manage learning events, tasks, submissions, attendance, scoring, and leaderboards for students and mentors. It streamlines event management, automates scoring, and provides a transparent leaderboard, making it valuable for both organizers and participants.
+
+# Core Features  
+- **Authentication & Roles**: Student registration/login, mentor login, JWT-based authentication, and role-based permissions ensure secure and appropriate access.
+- **Levels & Tasks**: Structured levels with deadlines and difficulty (Easy, Medium, Hard), mentor-managed creation/editing, and APIs for students to view unlocked levels.
+- **Submissions**: Students submit tasks (link, comment, optional file), mentors approve/reject with feedback, and the system tracks status and increments scores based on task difficulty, timing, and penalties.
+- **Attendance**: Mentors mark attendance per session, and both mentors and students can view attendance history. Attendance awards points (max 10/week).
+- **Leaderboard & Scores**: Automatic score updates based on detailed scoring rules (see below), APIs for top 5 and user rank, and mentor full leaderboard view.
+- **Final Projects**: Students submit final projects, mentors approve/reject, and all data is stored alongside regular submissions. Final project approval awards significant points.
+
+# Scoring Rules
+| Action                        | Score Impact | Details                                                                 |
+|-------------------------------|--------------|------------------------------------------------------------------------|
+| Task Submission Approval (Easy)   | +10 points    | Approved submission for tasks marked "Easy" by mentors.                 |
+| Task Submission Approval (Medium) | +15 points    | Approved submission for tasks marked "Medium" by mentors.               |
+| Task Submission Approval (Hard)   | +20 points    | Approved submission for tasks marked "Hard" by mentors.                 |
+| Early Submission Bonus            | +5 points     | Submission made at least 48 hours before the task deadline.             |
+| Final Project Approval            | +30 points    | Approved final project submission.                                      |
+| Attendance per Session            | +2 points     | Awarded for attending a session (max 10 points/week).                   |
+| Late Submission Penalty           | -5 points     | Deducted if approved submission is after the deadline.                  |
+| Task Submission Rejection         | 0 points      | No points awarded; mentor provides feedback.                            |
+
+**Implementation Notes:**
+- **Task Difficulty**: Mentors set task difficulty (Easy/Medium/Hard) in the Level model (add a `difficulty` field).
+- **Early Submission**: System checks if submission is at least 48 hours before deadline (requires `submission_timestamp` in Submission model).
+- **Attendance Points**: Max 10 points/week (tracked via Attendance model).
+- **Late Submission**: Penalty applied if approved but late.
+- **Leaderboard**: User model’s `score` field is updated after each action; APIs reflect real-time rankings.
+- **Engagement**: Tiered points, bonuses, and penalties encourage proactive, accountable participation.
+
+# User Experience  
+- **Personas**: Students (participants), Mentors (event organizers/evaluators).
+- **Key Flows**:
+  - Students: Register/login, view levels (with difficulty), submit tasks, check feedback, view leaderboard, submit final project, earn points for approved submissions (tiered by difficulty), early bonuses, attendance, and avoid penalties for late submissions.
+  - Mentors: Login, create/edit levels, review submissions, mark attendance, manage leaderboard, approve/reject final projects.
+- **UI/UX Considerations**: Simple, mobile-friendly frontend (handled separately), clear feedback on actions, and role-based navigation.
+</context>
+<PRD>
+# Technical Architecture  
+- **System Components**:
+  - Django backend (REST API)
+  - PostgreSQL database (via Supabase)
+  - JWT authentication (djoser)
+  - CORS for frontend integration
+- **Data Models**:
+  - User (extended with role, score)
+  - Level (add `difficulty` field: Easy, Medium, Hard)
+  - Submission (add `submission_timestamp`)
+  - Attendance
+  - FinalProject
+  - **Scoring Logic**: Points awarded based on action (see Scoring Rules). System enforces weekly attendance cap and applies bonuses/penalties automatically.
+- **APIs & Integrations**:
+  - RESTful endpoints for all features
+  - Integration with Supabase PostgreSQL
+  - Deployed on Render
+- **Infrastructure Requirements**:
+  - Render for hosting
+  - Supabase for database
+  - Environment variables for secrets
+
+# Development Roadmap  
+- **Phase 1: Setup & Auth**
+  - Django project setup, Supabase connection, djoser JWT, user model extension, registration/login endpoints, role-based permissions
+- **Phase 2: Core Features**
+  - Level and Submission models/APIs, mentor level management, student submissions, mentor review, scoring logic
+- **Phase 3: Attendance & Leaderboard**
+  - Attendance model/APIs, leaderboard endpoints, mentor full view
+- **Phase 4: Final Projects & Polish**
+  - FinalProject model/APIs, role protection, testing, deployment
+
+# Logical Dependency Chain
+- Foundation: Auth, user model, and permissions
+- Next: Level/task models and APIs (students need levels to submit tasks)
+- Then: Submission and review logic (scoring, feedback)
+- After: Attendance and leaderboard (requires user and submission data)
+- Finally: Final project submission/approval and system polish
+
+# Risks and Mitigations  
+- **Technical challenges**: Integrating djoser and Supabase; mitigated by using well-documented libraries and testing early.
+- **MVP scoping**: Risk of feature creep; mitigated by strict adherence to roadmap phases.
+- **Resource constraints**: 3-person team; mitigated by clear team split and parallel development.
+
+# Appendix  
+- **Research findings**: Supabase and Render are suitable for free-tier hosting for MVP.
+- **Technical specifications**: Python 3.x, Django, DRF, PostgreSQL, djoser, django-cors-headers.
+</PRD> 
