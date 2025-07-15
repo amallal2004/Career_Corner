@@ -90,7 +90,7 @@ class SubmissionUpdateView(generics.UpdateAPIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def leaderboard(request):
-    top_profiles = Profile.objects.select_related('user').order_by('-score')[:5]
+    top_profiles = Profile.objects.select_related('user').filter(user__is_staff=False).order_by('-score')[:5]
     data = [
         {"username": p.user.username, "score": p.score}
         for p in top_profiles
