@@ -120,3 +120,4 @@ cython_debug/
 .idea/
 *.sublime-project
 *.sublime-workspace
+.vercel
