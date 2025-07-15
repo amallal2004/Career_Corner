@@ -1,9 +1,13 @@
+### ======================
+### 🚀 SIGNUP & LOGIN
+### ======================
+
 ### Signup with extended profile
 POST http://127.0.0.1:8000/api/signup/
 Content-Type: application/json
 
 {
-  "username": "amal123",
+  "username": "amal",
   "email": "amal@example.com",
   "password": "pass123",
   "full_name": "Amal Lal",
@@ -13,36 +17,46 @@ Content-Type: application/json
 }
 
 
-### Login
+### Login as student
 POST http://127.0.0.1:8000/api/login/
 Content-Type: application/json
 
 {
-  "username": "amal123",
+  "username": "amal",
   "password": "pass123"
 }
 
-### Get my profile
-GET http://127.0.0.1:8000/api/profile/
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
 
-### Mentor Login
+### Login as mentor
 POST http://127.0.0.1:8000/api/login/
 Content-Type: application/json
 
 {
-  "username": "mentor",
+  "username": "admin",
   "password": "admin@123"
 }
 
-### Leaderboard
+### ======================
+### 👤 PROFILE & LEADERBOARD
+### ======================
+
+### Get my profile
+GET http://127.0.0.1:8000/api/profile/
+Authorization: Token YOUR_STUDENT_TOKEN
+
+### Get leaderboard (students only, mentors excluded)
 GET http://127.0.0.1:8000/api/leaderboard/
-Authorization: Token 88317e6c4b78dd6bb86d0052b8642c2415e39915
+Authorization: Token YOUR_STUDENT_TOKEN
+
+
+### ======================
+### 📚 LEVELS (TASKS)
+### ======================
 
 ### Mentor creates a level
 POST http://127.0.0.1:8000/api/levels/create/
 Content-Type: application/json
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+Authorization: Token YOUR_MENTOR_TOKEN
 
 {
   "number": 4,
@@ -51,16 +65,19 @@ Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
   "deadline": "2025-08-20"
 }
 
-
-### Get all levels
+### Get all levels (student or mentor)
 GET http://127.0.0.1:8000/api/levels/
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+Authorization: Token YOUR_STUDENT_TOKEN
 
+
+### ======================
+### 📝 SUBMISSIONS
+### ======================
 
 ### Submit a task
 POST http://127.0.0.1:8000/api/submissions/
 Content-Type: application/json
-Authorization: Token YOUR_TOKEN_HERE
+Authorization: Token YOUR_STUDENT_TOKEN
 
 {
   "level": 1,
@@ -71,13 +88,13 @@ Authorization: Token YOUR_TOKEN_HERE
 
 ### View my submissions
 GET http://127.0.0.1:8000/api/submissions/
-Authorization: Token 88317e6c4b78dd6bb86d0052b8642c2415e39915
+Authorization: Token YOUR_STUDENT_TOKEN
 
 
-### Approve a submission (mentor only)
+### Approve a submission (mentor)
 PATCH http://127.0.0.1:8000/api/submissions/1/
 Content-Type: application/json
-Authorization: Token MENTOR_TOKEN_HERE
+Authorization: Token YOUR_MENTOR_TOKEN
 
 {
   "status": "approved",
@@ -85,38 +102,14 @@ Authorization: Token MENTOR_TOKEN_HERE
 }
 
 
-### Approve a submission with feedback (mentor only)
-PATCH http://127.0.0.1:8000/api/submissions/1/
-Content-Type: application/json
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
-
-{
-  "status": "approved",
-  "feedback": "Looks great!"
-}
-
-### List all sessions (students + mentors)
-GET http://127.0.0.1:8000/api/sessions/
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
-
-
-### Mentor marks attendance
-POST http://127.0.0.1:8000/api/sessions/1/attendance/
-Content-Type: application/json
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
-
-{
-  "attendances": [
-    {"student_id": 2, "status": "present"},
-    {"student_id": 3, "status": "absent"},
-    {"student_id": 4, "status": "present"}
-  ]
-}
+### ======================
+### 🎓 SESSIONS & ATTENDANCE
+### ======================
 
 ### Mentor creates a new session
 POST http://127.0.0.1:8000/api/sessions/create/
 Content-Type: application/json
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+Authorization: Token YOUR_MENTOR_TOKEN
 
 {
   "title": "Week 3 JavaScript",
@@ -125,6 +118,20 @@ Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
   "location": "CSE Seminar Hall"
 }
 
-### Get all sessions
+### Get all sessions (students or mentors)
 GET http://127.0.0.1:8000/api/sessions/
-Authorization: Token d9b760ce9b5d45140f4e6b8ad9850144c6ad66c4
+Authorization: Token YOUR_STUDENT_TOKEN
+
+
+### Mentor marks attendance
+POST http://127.0.0.1:8000/api/sessions/1/attendance/
+Content-Type: application/json
+Authorization: Token YOUR_MENTOR_TOKEN
+
+{
+  "attendances": [
+    {"student_id": 2, "status": "present"},
+    {"student_id": 3, "status": "absent"},
+    {"student_id": 4, "status": "present"}
+  ]
+}
