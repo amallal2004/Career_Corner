@@ -156,3 +156,20 @@ def mark_attendance(request, session_id):
                 Profile.objects.filter(user=student).update(score=F('score') + 5)
 
     return Response({"message": "Attendance recorded"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_profile(request):
+    profile = request.user.profile
+    data = {
+        "username": request.user.username,
+        "email": request.user.email,
+        "full_name": profile.full_name,
+        "year_of_study": profile.year_of_study,
+        "department": profile.department,
+        "phone": profile.phone,
+        "score": profile.score
+    }
+    return Response(data)
+

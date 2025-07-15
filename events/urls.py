@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     signup, login,
     LevelListView, SubmissionListCreateView, SubmissionUpdateView,
-    leaderboard,
+    leaderboard, my_profile,
     list_sessions, mark_attendance, create_session
 )
 
@@ -16,4 +16,5 @@ urlpatterns = [
     path('sessions/', list_sessions, name='sessions'),
     path('sessions/create/', create_session, name='create-session'),
     path('sessions/<int:session_id>/attendance/', mark_attendance, name='mark-attendance'),
+    path('profile/', my_profile, name='my-profile'),
 ]
